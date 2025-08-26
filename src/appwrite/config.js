@@ -5,7 +5,7 @@ export class Service{
  client = new Client();
  databases;
  bucket;
-
+// create constructor
  constructor(){
 this.client
     .setEndpoint(conf.appwriteUrl)
@@ -13,6 +13,8 @@ this.client
     this.databases = new Databases(this.client);
     this.bucket = new Storage(this.client);
  }
+ // for posts
+ // for creating posts
  async createPost({title, slug, content, featureImage, status, userId}){
     try{
         return await this.databases.createDocument(
@@ -33,6 +35,8 @@ this.client
     }
 
  }
+
+ // for updating posts
  async updatePost({slug, title,content, featureImage, status} ){
 
     try {
@@ -53,6 +57,7 @@ this.client
     }
  }
 
+// for deleting posts
  async deletePost({slug}){
     try {
         await this.databases.deleteDocument(
@@ -67,6 +72,7 @@ this.client
     }
  }
 
+// for getting a post
  async getPost({slug}){
     try {
         return await this.databases.getDocument(
@@ -80,6 +86,7 @@ this.client
     }
  }
 
+// for getting multiple posts
  async getPosts(queries= [Query.equal("status", "Active")]){
    try {
        return await this.databases.listDocuments(
@@ -95,6 +102,7 @@ this.client
  }
 
 // file upload service
+// for uploading files
 async uploadFile(file) {
     try {
     return await this.bucket.createFile(
@@ -108,6 +116,8 @@ async uploadFile(file) {
         return false;
     }
 }
+
+// for deleting files
 async deleteFile(fileId) {
     try {
         return await this.bucket.deleteFile(
@@ -120,6 +130,8 @@ async deleteFile(fileId) {
         return false
     }
 }
+
+// for getting a file preview
 getFilePreview(fileId){
     return this.bucket.getFilePreview(
         conf.appwriteBucketId,
